@@ -1,0 +1,38 @@
+[package]
+name          = "multi-log-macros"
+version       = "0.1.0"
+edition       = "2024"
+rust-version  = "1.85"
+authors       = ["liebman <liebman@zod.com>"]
+description   = "Proc macros that dispatch one log statement to defmt, log, and an optional extra sink"
+documentation = "https://docs.rs/multi-log-macros"
+repository    = "https://github.com/liebman/multi-log-macros"
+readme        = "README.md"
+license       = "MIT OR Apache-2.0"
+keywords      = ["logging", "defmt", "log", "proc-macro", "embedded"]
+categories    = [
+    "development-tools::debugging",
+    "development-tools::procedural-macro-helpers",
+    "embedded",
+    "no-std",
+    "no-std::no-alloc",
+]
+exclude       = ["*.code-workspace"]
+
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+# Emit `let _ = format_args!(…)` in a calling crate that has neither the
+# `defmt` nor the `log` feature, so the arguments of a log statement are still
+# used and an unused-variable warning does not appear. Off by default: a crate
+# that always selects a back end gains nothing from the extra tokens.
+consume-unused = []
+
+[lib]
+name       = "multi_log_macros"
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote       = "1"
